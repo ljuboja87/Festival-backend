@@ -62,4 +62,13 @@ public class Venue {
 	public void setFestivals(List<Festival> festivals) {
 		this.festivals = festivals;
 	}
+	
+	public void removeFestival(Long id) {
+		for(Festival f: this.festivals) {
+			if(f.getId() == id) {
+				this.festivals.remove(f);
+				return;
+			}
+		}
+	}
 }

@@ -45,11 +45,11 @@ public class User {
 		this.id = id;
 	}
 
-	public String getKorisnickoIme() {
+	public String getUserName() {
 		return userName;
 	}
 
-	public void setKorisnickoIme(String userName) {
+	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 
