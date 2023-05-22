@@ -1,6 +1,6 @@
 package festival.web.dto;
 
-public class UserRegistration {
+public class UserRegistrationDTO extends UserDTO {
 	
 	private String password;
 	

@@ -9,14 +9,14 @@ public class UserDTO {
 	private Long id;
 	
 	@NotBlank
-	private String userName;
+	public String userName;
 	
 	@NotBlank
 	@Email
-	private String eMail;
+	public String eMail;
 	
 	@Size(min = 3, max = 50)
-	private String name;
+	public String name;
 	
 	@Size(min = 3, max = 50)
 	private String surname;
