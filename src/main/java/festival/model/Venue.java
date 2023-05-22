@@ -71,4 +71,8 @@ public class Venue {
 			}
 		}
 	}
+	
+	public void addFestival(Festival festival) {
+		this.festivals.add(festival);
+	}
 }

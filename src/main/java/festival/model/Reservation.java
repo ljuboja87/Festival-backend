@@ -27,6 +27,13 @@ public class Reservation {
 		super();
 	}
 
+	public Reservation(int purchasedTickets, double totalPrice, Festival festival) {
+		super();
+		this.purchasedTickets = purchasedTickets;
+		this.totalPrice = totalPrice;
+		this.festival = festival;
+	}
+
 	public Long getId() {
 		return id;
 	}
