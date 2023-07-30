@@ -17,7 +17,7 @@ import festival.web.dto.VenueDTO;
 
 @RestController
 @Validated
-@RequestMapping(value = "/api/venues", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/venues", produces = MediaType.APPLICATION_JSON_VALUE)
 public class VenuesController {
 	
 	@Autowired
@@ -26,7 +26,7 @@ public class VenuesController {
 	@Autowired
 	private VenueToVenueDto toVenueDto;
 
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+	//@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<VenueDTO>> getAll() {
 		

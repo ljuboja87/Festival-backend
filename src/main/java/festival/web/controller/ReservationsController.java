@@ -19,7 +19,7 @@ import festival.web.dto.ReservationDTO;
 
 @RestController
 @Validated
-@RequestMapping(value = "/api/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/reservations", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ReservationsController {
 
 	@Autowired

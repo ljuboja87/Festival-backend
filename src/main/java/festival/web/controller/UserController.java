@@ -42,7 +42,7 @@ import festival.web.dto.UserDTO;
 import festival.web.dto.UserRegistrationDTO;
 
 @RestController
-@RequestMapping(value = "/api/users", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
 	@Autowired
@@ -66,7 +66,7 @@ public class UserController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	@PreAuthorize("permitAll()")
+	//@PreAuthorize("permitAll()")
 	@PostMapping
 	public ResponseEntity<UserDTO> create(@RequestBody @Validated UserRegistrationDTO dto){
 
@@ -138,7 +138,7 @@ public class UserController {
 		}
 	}
 
-	@PreAuthorize("permitAll()")
+	//@PreAuthorize("permitAll()")
 	@RequestMapping(path = "/auth", method = RequestMethod.POST)
 	public ResponseEntity authenticateUser(@RequestBody AuthUserDTO dto) {
 		// Perform the authentication

@@ -44,7 +44,7 @@ public class JpaFestivalService implements FestivalService {
 			name = "%" + name + "%";
 		}
 
-		return festivalRepository.search(name, venueId, PageRequest.of(pageNo, 3));
+		return festivalRepository.search(name, venueId, PageRequest.of(pageNo, 10));
 	}
 
 	@Override

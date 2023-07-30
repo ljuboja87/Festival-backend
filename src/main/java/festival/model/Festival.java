@@ -27,6 +27,9 @@ public class Festival {
 	@Column
 	private int availableTickets;
 	
+	@Column
+	private String description;
+	
 	@ManyToOne
 	private Venue venue;
 	
@@ -35,6 +38,14 @@ public class Festival {
 
 	public Festival() {
 		super();
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Long getId() {
