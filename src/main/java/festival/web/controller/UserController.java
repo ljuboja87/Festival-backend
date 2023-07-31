@@ -66,7 +66,7 @@ public class UserController {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 
-	//@PreAuthorize("permitAll()")
+	@PreAuthorize("permitAll()")
 	@PostMapping
 	public ResponseEntity<UserDTO> create(@RequestBody @Validated UserRegistrationDTO dto){
 
@@ -138,7 +138,7 @@ public class UserController {
 		}
 	}
 
-	//@PreAuthorize("permitAll()")
+	@PreAuthorize("permitAll()")
 	@RequestMapping(path = "/auth", method = RequestMethod.POST)
 	public ResponseEntity authenticateUser(@RequestBody AuthUserDTO dto) {
 		// Perform the authentication

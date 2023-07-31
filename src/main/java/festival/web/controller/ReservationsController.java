@@ -28,7 +28,7 @@ public class ReservationsController {
 	@Autowired
 	private ReservationToReservationDto toReservationDto;
 
-	//@PreAuthorize("hasRole('USER')")
+	@PreAuthorize("hasRole('USER')")
 	@GetMapping("/{id}")
 	public ResponseEntity<ReservationDTO> getOne(@PathVariable Long id) {
 
