@@ -42,7 +42,7 @@ public class FestivalsController {
 	@Autowired
 	private FestivalToFestivalDto toFestivalDto;
 
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+	//@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<FestivalDTO>> getAll(
 			@RequestParam(required = false) String name,
@@ -63,7 +63,7 @@ public class FestivalsController {
 		return new ResponseEntity<>(toFestivalDto.convert(page.getContent()), headers, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+	//@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<FestivalDTO> getOne(@PathVariable Long id) {
 		Optional<Festival> festivalOptional = festivalService.findOne(id);
@@ -97,11 +97,11 @@ public class FestivalsController {
 		return new ResponseEntity<>(toFestivalDto.convert(savedFestival), HttpStatus.CREATED);
 	}
 	
-	@PreAuthorize("hasRole('USER')")
+	//@PreAuthorize("hasRole('USER')")
 	@PostMapping(value = "/{id}/make_reservation")
-	public ResponseEntity<Void> changeReservation(@PathVariable Long id, @RequestParam(required = true) Integer noTickets) {
+	public ResponseEntity<Void> changeReservation(@PathVariable Long id, @RequestParam(required = true) Integer noTickets, @RequestParam(required = true) String userName) {
 		
-		Festival festival = festivalService.changing(id, noTickets);
+		Festival festival = festivalService.changing(id, noTickets, userName);
 				
 		if(festival == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -131,12 +131,12 @@ public class FestivalsController {
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(value = "/{id}/totalIncome")
 	public ResponseEntity<Double> totalIncome(@PathVariable Long id) {
-		double totalIncome = reservationRepository.totalIncome(id);
 		
-		if(totalIncome == 0) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		} else {
+		if(reservationRepository.totalIncome(id) == null) {
+			double totalIncome = 0.0;
 			return new ResponseEntity<>(totalIncome, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(reservationRepository.totalIncome(id), HttpStatus.OK);
 		}
 	}
 

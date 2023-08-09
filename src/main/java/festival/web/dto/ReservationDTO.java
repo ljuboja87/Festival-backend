@@ -9,6 +9,8 @@ public class ReservationDTO {
 	private double totalPrice;
 	
 	private FestivalDTO festival;
+	
+	private UserDTO user;
 
 	public ReservationDTO() {
 		super();
@@ -44,5 +46,13 @@ public class ReservationDTO {
 
 	public void setFestival(FestivalDTO festival) {
 		this.festival = festival;
+	}
+
+	public UserDTO getUser() {
+		return user;
+	}
+
+	public void setUser(UserDTO user) {
+		this.user = user;
 	}
 }

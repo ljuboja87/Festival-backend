@@ -1,12 +1,18 @@
 package festival.model;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import festival.enumeration.UserRole;
 
 @Entity
@@ -32,9 +38,11 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL )
+    private List<Reservation> reservations = new ArrayList<Reservation>();
 
     public User(){
-
     }
 
     public Long getId() {
@@ -91,6 +99,22 @@ public class User {
 
 	public void setUserRole(UserRole userRole) {
 		this.role = userRole;
+	}
+
+	public UserRole getRole() {
+		return role;
+	}
+
+	public void setRole(UserRole role) {
+		this.role = role;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
 	}
 
 	@Override

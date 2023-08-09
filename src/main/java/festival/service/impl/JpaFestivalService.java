@@ -10,11 +10,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import festival.model.Festival;
 import festival.model.Reservation;
+import festival.model.User;
 import festival.model.Venue;
 import festival.repository.FestivalRepository;
 import festival.repository.ReservationRepository;
 import festival.repository.VenueRepository;
 import festival.service.FestivalService;
+import festival.service.UserService;
 import festival.support.FestivalDtoToFestival;
 import festival.web.dto.FestivalDTO;
 
@@ -27,6 +29,9 @@ public class JpaFestivalService implements FestivalService {
 	
 	@Autowired
 	private FestivalService festivalService;
+	
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	private VenueRepository venueRepository;
@@ -97,18 +102,20 @@ public class JpaFestivalService implements FestivalService {
 	}
 
 	@Override
-	public Festival changing(Long id, Integer noTickets) {
+	public Festival changing(Long id, Integer noTickets, String userName) {
 		
 		Festival festival = festivalService.findOne(id).get();
+		User user = userService.findByUserName(userName).get();
 		
-		if(festival.getAvailableTickets() > 0) {
+		if(festival.getAvailableTickets() > 0 && festival.getAvailableTickets() >= noTickets  && user != null) {
 			
-			Reservation reservation = new Reservation(0, 0, festival);
+			Reservation reservation = new Reservation(0, 0.0, festival, user);
 			reservation.setPurchasedTickets(noTickets);
 			int newNoAvailableTickets = festival.getAvailableTickets() - noTickets;
 			festival.setAvailableTickets(newNoAvailableTickets);
 			double newTotalPrice = reservation.getPurchasedTickets() * festival.getPrice();
 			reservation.setTotalPrice(newTotalPrice);
+			reservation.setUser(user);
 			reservationRepository.save(reservation);
 			festival.addReservations(reservation);
 			Festival savedFestival = festivalRepository.save(festival);

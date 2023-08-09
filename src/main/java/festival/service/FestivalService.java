@@ -14,5 +14,5 @@ public interface FestivalService {
 	Optional<Festival> findOne(Long id);
 	Festival save(FestivalDTO festivalDTO);
 	Festival delete(Long id);
-	Festival changing(Long id, Integer noTickets);
+	Festival changing(Long id, Integer noTickets, String userName);
 }

@@ -15,6 +15,9 @@ public class ReservationToReservationDto implements Converter<Reservation, Reser
 	@Autowired
 	private FestivalToFestivalDto toFestivalDto;
 	
+	@Autowired
+	private UserToUserDto toUserDto;
+	
 	@Override
 	public ReservationDTO convert(Reservation reservation) {
 		
@@ -24,6 +27,7 @@ public class ReservationToReservationDto implements Converter<Reservation, Reser
 		reservationDTO.setPurchasedTickets(reservation.getPurchasedTickets());
 		reservationDTO.setTotalPrice(reservation.getTotalPrice());
 		reservationDTO.setFestival(toFestivalDto.convert(reservation.getFestival()));
+		reservationDTO.setUser(toUserDto.convert(reservation.getUser()));
 		
 		return reservationDTO;
 	}

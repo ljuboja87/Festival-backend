@@ -26,7 +26,7 @@ public class VenuesController {
 	@Autowired
 	private VenueToVenueDto toVenueDto;
 
-	@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+	//@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<VenueDTO>> getAll() {
 		

@@ -9,29 +9,33 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Reservation {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column
 	private int purchasedTickets;
-	
+
 	@Column
 	private double totalPrice;
-	
+
 	@ManyToOne
 	private Festival festival;
+
+	@ManyToOne
+	private User user;
 
 	public Reservation() {
 		super();
 	}
 
-	public Reservation(int purchasedTickets, double totalPrice, Festival festival) {
+	public Reservation(int purchasedTickets, double totalPrice, Festival festival, User user) {
 		super();
 		this.purchasedTickets = purchasedTickets;
 		this.totalPrice = totalPrice;
 		this.festival = festival;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -64,5 +68,13 @@ public class Reservation {
 
 	public void setFestival(Festival festival) {
 		this.festival = festival;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
