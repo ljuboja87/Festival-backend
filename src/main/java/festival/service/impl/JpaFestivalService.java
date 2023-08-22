@@ -3,21 +3,24 @@ package festival.service.impl;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import festival.model.Cart;
+import festival.model.Cart_Festival;
 import festival.model.Festival;
 import festival.model.Reservation;
 import festival.model.User;
 import festival.model.Venue;
+import festival.repository.CartFestivalRepository;
 import festival.repository.FestivalRepository;
 import festival.repository.ReservationRepository;
+import festival.repository.UserRepository;
 import festival.repository.VenueRepository;
 import festival.service.FestivalService;
-import festival.service.UserService;
 import festival.support.FestivalDtoToFestival;
+import festival.web.dto.Cart_FestivalDto;
 import festival.web.dto.FestivalDTO;
 
 @Service
@@ -26,12 +29,15 @@ public class JpaFestivalService implements FestivalService {
 
 	@Autowired
 	private FestivalRepository festivalRepository;
-	
+
+	@Autowired
+	private CartFestivalRepository cartFestivalRepository;
+
 	@Autowired
 	private FestivalService festivalService;
-	
+
 	@Autowired
-	private UserService userService;
+	private UserRepository userRepository;
 
 	@Autowired
 	private VenueRepository venueRepository;
@@ -102,25 +108,27 @@ public class JpaFestivalService implements FestivalService {
 	}
 
 	@Override
-	public Festival changing(Long id, Integer noTickets, String userName) {
+	@Transactional
+	public Festival changing(String userName, List<Cart_FestivalDto> cart_FestivalDtos) {
+
+		User user = userRepository.findFirstByUserName(userName).get();
+		Cart cart = user.getCart();
 		
-		Festival festival = festivalService.findOne(id).get();
-		User user = userService.findByUserName(userName).get();
-		
-		if(festival.getAvailableTickets() > 0 && festival.getAvailableTickets() >= noTickets  && user != null) {
-			
-			Reservation reservation = new Reservation(0, 0.0, festival, user);
-			reservation.setPurchasedTickets(noTickets);
-			int newNoAvailableTickets = festival.getAvailableTickets() - noTickets;
-			festival.setAvailableTickets(newNoAvailableTickets);
-			double newTotalPrice = reservation.getPurchasedTickets() * festival.getPrice();
-			reservation.setTotalPrice(newTotalPrice);
-			reservation.setUser(user);
-			reservationRepository.save(reservation);
-			festival.addReservations(reservation);
-			Festival savedFestival = festivalRepository.save(festival);
-			return savedFestival;
+		for(Cart_Festival cf: cart.getFestivals()) {
+			Festival festival = festivalService.findOne(cf.getFestival().getId()).get();
+			if(festival.getAvailableTickets() > 0 && festival.getAvailableTickets() >= cf.getNoTickets()) {
+				Reservation reservation = new Reservation(0, 0.0, festival, user);
+				reservation.setPurchasedTickets(cf.getNoTickets());
+				double newTotalPrice = reservation.getPurchasedTickets() * festival.getPrice();
+				reservation.setTotalPrice(newTotalPrice);
+				reservationRepository.save(reservation);
+				int newNoAvailableTickets = festival.getAvailableTickets() - cf.getNoTickets();
+				festival.setAvailableTickets(newNoAvailableTickets);
+				festival.addReservations(reservation);
+				festivalRepository.save(festival);
+			}
 		}
+		cartFestivalRepository.deleteAll(cart.getFestivals());
 		return null;
 	}
 }

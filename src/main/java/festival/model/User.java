@@ -12,16 +12,19 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import festival.enumeration.UserRole;
 
 @Entity
 public class User {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String userName;
 
     @Column( unique = true, nullable = false)
@@ -39,8 +42,11 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
     
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL )
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL )
     private List<Reservation> reservations = new ArrayList<Reservation>();
+    
+    @OneToOne(mappedBy = "user", cascade=CascadeType.ALL)
+    private Cart cart;
 
     public User(){
     }
@@ -115,6 +121,14 @@ public class User {
 
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 
 	@Override

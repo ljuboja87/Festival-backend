@@ -25,7 +25,7 @@ public class FestivalToFestivalDto implements Converter<Festival, FestivalDTO> {
 		festivalDTO.setStartDate(festival.getStartDate().toString());
 		festivalDTO.setEndDate(festival.getEndDate().toString());
 		festivalDTO.setPrice(festival.getPrice());
-		festivalDTO.setNumberOfAvailableTickets(festival.getAvailableTickets());
+		festivalDTO.setAvailableTickets(festival.getAvailableTickets());
 		festivalDTO.setDescription(festival.getDescription());
 		festivalDTO.setVenue(toVenueDto.convert(festival.getVenue()));
 		

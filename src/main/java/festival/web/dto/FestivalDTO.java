@@ -4,29 +4,28 @@ import javax.validation.constraints.Positive;
 import org.hibernate.validator.constraints.Length;
 
 public class FestivalDTO {
-	
+
 	private Long id;
-	
+
 	@Length(max = 50)
 	private String name;
-	
+
 	private String startDate;
-	
+
 	private String endDate;
-	
+
 	@Positive(message = "Price is negative value!")
 	private double price;
-	
-	private int numberOfAvailableTickets;
-	
+
+	private int availableTickets;
+
 	private String description;
-	
+
 	private VenueDTO venue;
 
 	public FestivalDTO() {
 		super();
 	}
-	
 
 	public String getDescription() {
 		return description;
@@ -77,12 +76,12 @@ public class FestivalDTO {
 		this.price = price;
 	}
 
-	public int getNumberOfAvailableTickets() {
-		return numberOfAvailableTickets;
+	public int getAvailableTickets() {
+		return availableTickets;
 	}
 
-	public void setNumberOfAvailableTickets(int numberOfAvailableTickets) {
-		this.numberOfAvailableTickets = numberOfAvailableTickets;
+	public void setAvailableTickets(int availableTickets) {
+		this.availableTickets = availableTickets;
 	}
 
 	public VenueDTO getVenue() {

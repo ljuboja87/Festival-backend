@@ -13,6 +13,9 @@ INSERT INTO venue (id, city, country) VALUES (3, 'Sremska Mitrovica', 'SRB');
 INSERT INTO venue (id, city, country) VALUES (4, 'Budva', 'MNE');
 INSERT INTO venue (id, city, country) VALUES (5, 'Šid', 'SRB');
 
+INSERT INTO cart (id, user_id) VALUES (1, 3);
+INSERT INTO cart (id, user_id) VALUES (2, 2);
+
 INSERT INTO festival (id, name, start_date, end_date, price, available_tickets, description, venue_id) VALUES (1, 'Beer fest', '2023-08-15', '2023-08-20', 400, 2, 'Belgrade Beer Fest with a 20-year history in offering unforgettable experiences to beer and music lovers from the entire region.', 2);
 INSERT INTO festival (id, name, start_date, end_date, price, available_tickets, description, venue_id) VALUES (2, 'Folk fest', '2023-02-13', '2023-02-15', 500, 550, '„Srem Folk Fest“ is an international folk dancing festival held every year between 11th and 14th of August, in Sremska Mitrovica (Serbia) under the patronage of the City of Sremska Mitrovica.', 3);
 INSERT INTO festival (id, name, start_date, end_date, price, available_tickets, description, venue_id) VALUES (3, 'Tamburitza fest', '2023-04-01', '2023-04-04', 800, 300,'International tamburitza festival “Tamburica Fest” is held at Petrovaradin fortress in Novi Sad as a 3 day festival with unique concept and cultural mission to promote tamburitza music.', 1);
@@ -22,4 +25,8 @@ INSERT INTO festival (id, name, start_date, end_date, price, available_tickets, 
 INSERT INTO festival (id, name, start_date, end_date, price, available_tickets, description, venue_id) VALUES (7, 'Tucijada', '2023-12-12', '2023-12-20', 300, 1000,'-', 5);
 INSERT INTO festival (id, name, start_date, end_date, price, available_tickets, description, venue_id) VALUES (8, 'Sea dance', '2023-08-27', '2023-08-29', 250, 4,'-', 4);
 
-
+INSERT INTO cart_festival (cart_id, festival_id, no_tickets) VALUES (1, 1, 1);
+INSERT INTO cart_festival (cart_id, festival_id, no_tickets) VALUES (1, 3, 5);
+INSERT INTO cart_festival (cart_id, festival_id, no_tickets) VALUES (1, 6, 10);
+INSERT INTO cart_festival (cart_id, festival_id, no_tickets) VALUES (2, 7, 20);
+INSERT INTO cart_festival (cart_id, festival_id, no_tickets) VALUES (2, 8, 30);

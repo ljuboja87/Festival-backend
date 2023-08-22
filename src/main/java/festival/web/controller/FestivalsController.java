@@ -26,6 +26,7 @@ import festival.model.Festival;
 import festival.repository.ReservationRepository;
 import festival.service.FestivalService;
 import festival.support.FestivalToFestivalDto;
+import festival.web.dto.Cart_FestivalDto;
 import festival.web.dto.FestivalDTO;
 
 @RestController
@@ -35,14 +36,13 @@ public class FestivalsController {
 
 	@Autowired
 	private FestivalService festivalService;
-	
+
 	@Autowired
 	private ReservationRepository reservationRepository;
 
 	@Autowired
 	private FestivalToFestivalDto toFestivalDto;
 
-	//@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	@GetMapping
 	public ResponseEntity<List<FestivalDTO>> getAll(
 			@RequestParam(required = false) String name,
@@ -63,7 +63,6 @@ public class FestivalsController {
 		return new ResponseEntity<>(toFestivalDto.convert(page.getContent()), headers, HttpStatus.OK);
 	}
 
-	//@PreAuthorize("hasAnyRole('USER', 'ADMIN')")
 	@GetMapping("/{id}")
 	public ResponseEntity<FestivalDTO> getOne(@PathVariable Long id) {
 		Optional<Festival> festivalOptional = festivalService.findOne(id);
@@ -96,20 +95,20 @@ public class FestivalsController {
 		Festival savedFestival = festivalService.save(festivalDTO);
 		return new ResponseEntity<>(toFestivalDto.convert(savedFestival), HttpStatus.CREATED);
 	}
-	
+
 	//@PreAuthorize("hasRole('USER')")
-	@PostMapping(value = "/{id}/make_reservation")
-	public ResponseEntity<Void> changeReservation(@PathVariable Long id, @RequestParam(required = true) Integer noTickets, @RequestParam(required = true) String userName) {
-		
-		Festival festival = festivalService.changing(id, noTickets, userName);
-				
-		if(festival == null) {
+	@PostMapping(value = "/{userName}/make_reservation")
+	public ResponseEntity<Void> changeReservation(@PathVariable String userName, @RequestBody List<Cart_FestivalDto> cart_FestivalDtos) {
+
+		Festival festival = festivalService.changing(userName, cart_FestivalDtos);
+
+		if(festival != null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 	}
- 
+
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping(value = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<FestivalDTO> update(@PathVariable Long id, @Valid @RequestBody FestivalDTO festivalDTO) {
@@ -127,11 +126,11 @@ public class FestivalsController {
 		Festival savedFestival = festivalService.save(festivalDTO);
 		return new ResponseEntity<>(toFestivalDto.convert(savedFestival), HttpStatus.OK);
 	}
-	
+
 	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(value = "/{id}/totalIncome")
 	public ResponseEntity<Double> totalIncome(@PathVariable Long id) {
-		
+
 		if(reservationRepository.totalIncome(id) == null) {
 			double totalIncome = 0.0;
 			return new ResponseEntity<>(totalIncome, HttpStatus.OK);
